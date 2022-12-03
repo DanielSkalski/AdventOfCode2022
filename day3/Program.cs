@@ -2,23 +2,30 @@
 
 var prioritiesSum = 0;
 
-foreach(var line in await File.ReadAllLinesAsync(datafile))
+foreach(var groupRucksacks in File.ReadAllLines(datafile).Chunk(3))
 {
-    var compartmentSize = line.Length / 2;
-    var firstCompartment = line[..compartmentSize];
-    var secondCompartment = line[compartmentSize..];
-
     var register = new bool[53];
-    foreach (char item in firstCompartment)
+    var register2 = new bool[53];
+
+    foreach (char item in groupRucksacks[0])
     {
         var itemNumber = getItemPriority(item);
         register[itemNumber] = true;
     }
 
-    foreach (char item in secondCompartment)
+    foreach (char item in groupRucksacks[1])
     {
         var itemNumber = getItemPriority(item);
         if (register[itemNumber])
+        {
+            register2[itemNumber] = true;
+        }
+    }
+
+    foreach (char item in groupRucksacks[2])
+    {
+        var itemNumber = getItemPriority(item);
+        if (register2[itemNumber])
         {
             prioritiesSum += itemNumber;
             break;
