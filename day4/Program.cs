@@ -13,13 +13,16 @@ foreach (var line in File.ReadAllLines(datafile))
     var secondElfStart = Convert.ToInt32(secondElfRange[0]);
     var secondElfEnd = Convert.ToInt32(secondElfRange[1]);
 
-    if (firstElfStart >= secondElfStart &&
-        firstElfEnd <= secondElfEnd)
+    if ((secondElfStart <= firstElfStart && firstElfStart <= secondElfEnd)
+    ||
+        (secondElfStart <= firstElfEnd && firstElfEnd <= secondElfEnd))
     {
         result++;
     }
-    else if (secondElfStart >= firstElfStart &&
-        secondElfEnd <= firstElfEnd)
+    else if (
+        (firstElfStart <= secondElfStart && secondElfStart <= firstElfEnd)
+    ||
+        (firstElfStart <= secondElfEnd && secondElfEnd <= firstElfEnd))
     {
         result++;
     }
