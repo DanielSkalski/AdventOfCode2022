@@ -2,14 +2,14 @@
 
 var input = File.ReadAllText(datafile);
 
-for (int i = 0; i < input.Length - 4; i++)
+for (int i = 0; i < input.Length - 14; i++)
 {
-    var marker = input.Substring(i, 4);
+    var marker = input.Substring(i, 14);
 
     var markerFound = true;
-    for (int x = 0; markerFound && x < 3; x++)
+    for (int x = 0; markerFound && x < 13; x++)
     {
-        for (int y = x + 1; y < 4; y++)
+        for (int y = x + 1; y < 14; y++)
         {
             if (marker[x] == marker[y])
             {
@@ -21,7 +21,7 @@ for (int i = 0; i < input.Length - 4; i++)
 
     if (markerFound)
     {
-        Console.WriteLine(i + 4);
+        Console.WriteLine(i + 14);
         break;
     }
 }
