@@ -56,12 +56,14 @@ foreach (var line in File.ReadAllLines(datafile))
     }
 }
 
-var limit = 100000;
-var dirsBelowLimit = directoriesLookup.Values.Where(x => x.TotalSize <= limit).ToArray();
+var availableSpace = 70000000 - homeDirectory.TotalSize;
+var neededSpace = 30000000;
 
-var sum = dirsBelowLimit.Sum(x => x.TotalSize);
+var dirToDelete = directoriesLookup.Values
+    .Where(x => availableSpace + x.TotalSize >= neededSpace)
+    .MinBy(x => x.TotalSize)!;
 
-Console.WriteLine(sum);
+Console.WriteLine(dirToDelete.TotalSize);
 
 class Directory
 {
