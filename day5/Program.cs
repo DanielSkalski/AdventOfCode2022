@@ -33,7 +33,7 @@ foreach (var move in moves)
     int from = Convert.ToInt32(moveParsed[3]) - 1;
     int to = Convert.ToInt32(moveParsed.Last()) - 1;
 
-    var cratesToMove = structure[from].Take(howMany).Reverse();
+    var cratesToMove = structure[from].Take(howMany);
     structure[to].InsertRange(0, cratesToMove);
     structure[from].RemoveRange(0, howMany);
 }
