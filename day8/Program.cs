@@ -18,63 +18,62 @@ foreach(var line in lines)
     i++;
 }
 
-var result = 0;
+var maxScore = 0;
 
 for (i = 1; i < height - 1; i++)
 for (var j = 1; j < witdth - 1; j++)
 {
     // check top
-    var topIsVisible = true;
+    var topScore = 0;
     for (var k = i - 1; k >= 0; k--)
     {
+        topScore++;
+
         if (grid[k, j] >= grid[i, j])
         {
-            topIsVisible = false;
             break;
         }
     }
 
     // check bottom
-    var bottomIsVisible = true;
+    var bottomScore = 0;
     for (var k = i + 1; k < height; k++)
     {
+        bottomScore++;
         if (grid[k, j] >= grid[i, j])
         {
-            bottomIsVisible = false;
             break;
         }
     }
 
     // check left
-    var leftIsVisible = true;
+    var leftScore = 0;
     for (var k = j - 1; k >= 0; k--)
     {
+        leftScore++;
         if (grid[i, k] >= grid[i, j])
         {
-            leftIsVisible = false;
             break;
         }
     }
 
     // check right
-    var rightIsVisible = true;
+    var rightScore = 0;
     for (var k = j + 1; k < witdth; k++)
     {
+        rightScore++;
         if (grid[i, k] >= grid[i, j])
         {
-            rightIsVisible = false;
             break;
         }
     }
 
-    if (topIsVisible || bottomIsVisible || leftIsVisible || rightIsVisible)
-    {
-        // Console.WriteLine($"Visible: {i}, {j} : {grid[i, j]}");
+    var currentScore = topScore * bottomScore * leftScore * rightScore;
 
-        result++;
+    if (currentScore > maxScore)
+    {
+        maxScore = currentScore;
     }
 }
 
-result += (witdth * 2) + (height * 2) - 4;
-
-Console.WriteLine(result);
+Console.WriteLine(maxScore);
