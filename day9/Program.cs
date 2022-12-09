@@ -4,8 +4,8 @@ var lines = File.ReadAllLines(datafile);
 
 var positions = new List<string>() { "0,0" };
 
-int head_x = 0, head_y = 0;
-int tail_x = 0, tail_y = 0;
+int[] knots_x = new int[10];
+int[] knots_y = new int[10];
 
 foreach(var line in lines)
 {
@@ -17,20 +17,23 @@ foreach(var line in lines)
     {
         switch(direction)
         {
-            case "R": head_x++; break;
-            case "L": head_x--; break;
-            case "U": head_y++; break;
-            case "D": head_y--; break;
+            case "R": knots_x[0]++; break;
+            case "L": knots_x[0]--; break;
+            case "U": knots_y[0]++; break;
+            case "D": knots_y[0]--; break;
         }
 
-        if (Math.Abs(tail_y - head_y) > 1 ||
-            Math.Abs(tail_x - head_x) > 1)
+        for(int k = 1; k < 10; k++)
         {
-            tail_y += Math.Sign(head_y - tail_y);
-            tail_x += Math.Sign(head_x - tail_x);
+            if (Math.Abs(knots_y[k] - knots_y[k-1]) > 1 ||
+                Math.Abs(knots_x[k] - knots_x[k-1]) > 1)
+            {
+                knots_y[k] += Math.Sign(knots_y[k-1] - knots_y[k]);
+                knots_x[k] += Math.Sign(knots_x[k-1] - knots_x[k]);
+            }
         }
 
-        positions.Add($"{tail_x},{tail_y}");
+        positions.Add($"{knots_x[9]},{knots_y[9]}");
     }
 }
 
