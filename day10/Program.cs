@@ -1,37 +1,50 @@
-﻿
+﻿var datafile = "data.txt";
 
-var datafile = "data.txt";
-
-int[] cycles = { 20, 60, 100, 140, 180, 220 };
+int[] newlinesCycles = { 40, 80, 120, 160, 200, 240 };
 
 var instructions = File.ReadAllLines(datafile);
 
 var register = 1;
-int cycle = 1;
-var signalStrengths = new List<int>();
+int cycle = 0;
 
 foreach(var instruction in instructions)
 {
-    if (cycles.Contains(cycle))
+    if (newlinesCycles.Contains(cycle))
     {
-        signalStrengths.Add(cycle * register);
+        Console.WriteLine();
     }
+    DrawPixel(cycle, register);
 
     var command = instruction.Split(" ");
     if (command[0] == "addx")
     {
         var value = Convert.ToInt32(command[1]);
         cycle++;
-        if (cycles.Contains(cycle))
+
+        if (newlinesCycles.Contains(cycle))
         {
-            signalStrengths.Add(cycle * register);
+            Console.WriteLine();
         }
+        DrawPixel(cycle, register);
+
         register += value;
     }
 
     cycle++;
 }
 
-var result = signalStrengths.Sum();
+static void DrawPixel(int cycle, int register)
+{
+    var spritePosStart = register - 1;
+    var spritePosEnd = register + 1;
+    var drawnPos = cycle % 40;
 
-Console.WriteLine(result);
+    if (spritePosStart <= drawnPos && drawnPos <= spritePosEnd)
+    {
+        Console.Write("#");
+    }
+    else
+    {
+        Console.Write(".");
+    }
+}
